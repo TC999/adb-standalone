@@ -1,7 +1,6 @@
 name: Build ADB Standalone
 
-on: 
-    workflow_dispatch:
+on: [push, pull_request]
 
 jobs:
   build-adb:
@@ -26,11 +25,13 @@ jobs:
         run: |
           chmod +x adb-download-make.sh
           ./adb-download-make.sh
+          ls -lh
 
       - name: Upload ADB binary
         uses: actions/upload-artifact@v3
         with:
           name: adb-binary
+          if-no-files-found: error
           path: ./adb
 
       - name: Test ADB
